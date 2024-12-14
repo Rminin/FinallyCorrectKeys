@@ -7,8 +7,8 @@ using LobbyCompatibility.Enums;
 namespace FinallyCorrectKeys;
 
 [BepInPlugin(MyPluginInfo.PLUGIN_GUID, MyPluginInfo.PLUGIN_NAME, MyPluginInfo.PLUGIN_VERSION)]
-//[BepInDependency("BMX.LobbyCompatibility", BepInDependency.DependencyFlags.SoftDependency)]
-[LobbyCompatibility(CompatibilityLevel.ClientOnly, VersionStrictness.None)]
+[BepInDependency("BMX.LobbyCompatibility", BepInDependency.DependencyFlags.SoftDependency)]
+//[LobbyCompatibility(CompatibilityLevel.ClientOnly, VersionStrictness.None)]
 public class FinallyCorrectKeys : BaseUnityPlugin
 {
     public static FinallyCorrectKeys Instance { get; private set; } = null!;
