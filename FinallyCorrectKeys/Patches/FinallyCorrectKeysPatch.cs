@@ -9,24 +9,17 @@ public class FinallyCorrectKeysPatch
 {
     private static readonly InputActionAsset actions = IngamePlayerSettings.Instance.playerInput.actions;
 
-    private static readonly InputBinding discardBinding = actions.FindAction("Discard").bindings[0];
-    private static readonly InputBinding useBinding = actions.FindAction("Use").bindings[0];
-    private static readonly InputBinding activateItemBinding = actions.FindAction("ActivateItem").bindings[0]; // Don't know where it gets used
+    private static readonly string discardBinding = "Discard";
+    private static readonly string useBinding = "Use"; // Don't know where it gets used
+    private static readonly string activateItemBinding = "ActivateItem";
+    private static readonly string secondaryUseBinding = "ItemSecondaryUse";
+    private static readonly string tertiaryUseBinding = "ItemTertiaryUse";
+    private static readonly string inspectItemBinding = "InspectItem";
 
     [HarmonyPatch(nameof(HUDManager.ChangeControlTipMultiple))]
     [HarmonyPostfix]
     private static void ChangeControlTipMultiplePatch(HUDManager __instance)
     {
-        // Find keybind
-        var keybindDiscard = discardBinding.ToDisplayString();
-        FinallyCorrectKeys.Logger.LogDebug("ACTION DISCARD DISPLAYNAME: " + keybindDiscard);
-
-        var keybindUse = useBinding.ToDisplayString();
-        FinallyCorrectKeys.Logger.LogDebug("ACTION USE DISPLAYNAME: " + keybindUse);
-
-        var keybindActivateItem = activateItemBinding.ToDisplayString();
-        FinallyCorrectKeys.Logger.LogDebug("ACTION ACTIVATE_ITEM DISPLAYNAME: " + keybindActivateItem);
-
         // Change text
         var lines = __instance.controlTipLines;
         for (int i = 0; i < lines.Length; i++)
@@ -34,14 +27,29 @@ public class FinallyCorrectKeysPatch
             string lineText = lines[i].text;
             if (lineText.Contains("[G]"))
             {
-                lines[i].text = lineText.Replace("[G]", "[" + keybindDiscard + "]");
-                FinallyCorrectKeys.Logger.LogDebug("Replaced the discard binding.");
+                lines[i].text = lineText.Replace("[G]", "[" + GetInputBinding(discardBinding).ToDisplayString() + "]");
+                FinallyCorrectKeys.Logger.LogDebug("Replaced the " + discardBinding + " binding.");
             }
             else if (lineText.Contains("[LMB]"))
             {
-                lines[i].text = lineText.Replace("[LMB]", "[" + keybindActivateItem + "]");
-                FinallyCorrectKeys.Logger.LogDebug("Replaced the activate item binding.");
+                lines[i].text = lineText.Replace("[LMB]", "[" + GetInputBinding(activateItemBinding).ToDisplayString() + "]");
+                FinallyCorrectKeys.Logger.LogDebug("Replaced the " + activateItemBinding + " binding.");
+            }
+            else if (lineText.Contains("[Q]"))
+            {
+                lines[i].text = lineText.Replace("[Q]", "[" + GetInputBinding(secondaryUseBinding).ToDisplayString() + "]");
+                FinallyCorrectKeys.Logger.LogDebug("Replaced the " + secondaryUseBinding + " binding.");
+            }
+            else if (lineText.Contains("[E]"))
+            {
+                lines[i].text = lineText.Replace("[E]", "[" + GetInputBinding(tertiaryUseBinding).ToDisplayString() + "]");
+                FinallyCorrectKeys.Logger.LogDebug("Replaced the " + tertiaryUseBinding + " binding.");
             }
         }
+    }
+
+    private static InputBinding GetInputBinding(string actionName)
+    {
+        return actions.FindAction(actionName).bindings[0];
     }
 }
