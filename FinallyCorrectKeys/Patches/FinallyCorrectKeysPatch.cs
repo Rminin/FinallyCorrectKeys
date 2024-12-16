@@ -45,6 +45,11 @@ public class FinallyCorrectKeysPatch
                 lines[i].text = lineText.Replace("[E]", "[" + GetInputBinding(tertiaryUseBinding).ToDisplayString() + "]");
                 FinallyCorrectKeys.Logger.LogDebug("Replaced the " + tertiaryUseBinding + " binding.");
             }
+            else if (lineText.Contains("[Z]"))
+            {
+                lines[i].text = lineText.Replace("[Z]", "[" + GetInputBinding(inspectItemBinding).ToDisplayString() + "]");
+                FinallyCorrectKeys.Logger.LogDebug("Replaced the " + inspectItemBinding + " binding.");
+            }
         }
     }
 
