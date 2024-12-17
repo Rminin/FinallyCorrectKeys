@@ -5,7 +5,7 @@ using UnityEngine.InputSystem;
 namespace FinallyCorrectKeys.Patches;
 
 [HarmonyPatch(typeof(HUDManager))]
-public class FinallyCorrectKeysPatch
+public class HUDManagerPatches
 {
     private static readonly InputActionAsset actions = IngamePlayerSettings.Instance.playerInput.actions;
 
