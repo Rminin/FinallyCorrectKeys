@@ -1,4 +1,4 @@
-﻿using HarmonyLib;
+using HarmonyLib;
 using TMPro;
 using UnityEngine.InputSystem;
 
@@ -15,6 +15,8 @@ public class HUDManagerPatches
     private static readonly string secondaryUseBinding = "ItemSecondaryUse";
     private static readonly string tertiaryUseBinding = "ItemTertiaryUse";
     private static readonly string inspectItemBinding = "InspectItem";
+    private static readonly string sprintBinding = "Sprint";
+    private static readonly string scanBinding = "PingScan";
 
     [HarmonyPatch(nameof(HUDManager.ChangeControlTipMultiple))]
     [HarmonyPostfix]
@@ -65,6 +67,16 @@ public class HUDManagerPatches
             string replace = string.Format("[{0}/{1}]", GetInputBinding(secondaryUseBinding).ToDisplayString(), GetInputBinding(tertiaryUseBinding).ToDisplayString());
             line.text = lineText.Replace("[Q/E]", replace);
             FinallyCorrectKeys.Logger.LogDebug(string.Format("Replaced the {0} and {1} binding.", secondaryUseBinding, tertiaryUseBinding));
+        }
+        else if (lineText.StartsWith("Sprint")) // In case of round starting
+        {
+            line.text = lineText.Replace("[Shift]", "[" + GetInputBinding(sprintBinding).ToDisplayString() + "]");
+            FinallyCorrectKeys.Logger.LogDebug("Replaced the " + sprintBinding + " binding.");
+        }
+        else if (lineText.StartsWith("Scan")) // In case of round starting
+        {
+            line.text = lineText.Replace("[RMB]", "[" + GetInputBinding(scanBinding).ToDisplayString() + "]");
+            FinallyCorrectKeys.Logger.LogDebug("Replaced the " + scanBinding + " binding.");
         }
     }
 
