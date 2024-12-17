@@ -1,5 +1,5 @@
-﻿using BepInEx.Logging;
-using HarmonyLib;
+﻿using HarmonyLib;
+using TMPro;
 using UnityEngine.InputSystem;
 
 namespace FinallyCorrectKeys.Patches;
@@ -20,8 +20,19 @@ public class HUDManagerPatches
     [HarmonyPostfix]
     private static void ChangeControlTipMultiplePatch(HUDManager __instance)
     {
+        ReplaceKeysInControlTip(__instance.controlTipLines);
+    }
+
+    [HarmonyPatch(nameof(HUDManager.ChangeControlTip))]
+    [HarmonyPostfix]
+    private static void ChangeControlTipPatch(HUDManager __instance)
+    {
+        ReplaceKeysInControlTip(__instance.controlTipLines);
+    }
+
+    private static void ReplaceKeysInControlTip(TextMeshProUGUI[] lines)
+    {
         // Change text
-        var lines = __instance.controlTipLines;
         for (int i = 0; i < lines.Length; i++)
         {
             string lineText = lines[i].text;
