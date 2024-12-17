@@ -1,4 +1,4 @@
-using HarmonyLib;
+﻿using HarmonyLib;
 using TMPro;
 using UnityEngine.InputSystem;
 
@@ -29,7 +29,11 @@ public class HUDManagerPatches
     [HarmonyPostfix]
     private static void ChangeControlTipPatch(HUDManager __instance, int toolTipNumber)
     {
+        FinallyCorrectKeys.Logger.LogDebug("ToolTipNumber: " + toolTipNumber);
+        FinallyCorrectKeys.Logger.LogDebug("Linetext: " + __instance.controlTipLines[toolTipNumber].text);
 
+        __instance.controlTipLines[toolTipNumber].text = __instance.controlTipLines[toolTipNumber].text.Replace("[Q]", "[" + GetInputBinding(secondaryUseBinding).ToDisplayString() + "]");
+        FinallyCorrectKeys.Logger.LogDebug("Linetext changed: " + __instance.controlTipLines[toolTipNumber].text);
         ReplaceKeysInControlTip(__instance.controlTipLines[toolTipNumber]);
     }
 
@@ -68,12 +72,12 @@ public class HUDManagerPatches
             line.text = lineText.Replace("[Q/E]", replace);
             FinallyCorrectKeys.Logger.LogDebug(string.Format("Replaced the {0} and {1} binding.", secondaryUseBinding, tertiaryUseBinding));
         }
-        else if (lineText.StartsWith("Sprint")) // In case of round starting
+        else if (lineText.StartsWith("Sprint")) // In case of round starting // DOESN'T WORK 😭
         {
             line.text = lineText.Replace("[Shift]", "[" + GetInputBinding(sprintBinding).ToDisplayString() + "]");
             FinallyCorrectKeys.Logger.LogDebug("Replaced the " + sprintBinding + " binding.");
         }
-        else if (lineText.StartsWith("Scan")) // In case of round starting
+        else if (lineText.StartsWith("Scan")) // In case of round starting // DOESN'T WORK 😭
         {
             line.text = lineText.Replace("[RMB]", "[" + GetInputBinding(scanBinding).ToDisplayString() + "]");
             FinallyCorrectKeys.Logger.LogDebug("Replaced the " + scanBinding + " binding.");
