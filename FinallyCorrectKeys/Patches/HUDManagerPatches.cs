@@ -61,6 +61,11 @@ public class HUDManagerPatches
                 lines[i].text = lineText.Replace("[Z]", "[" + GetInputBinding(inspectItemBinding).ToDisplayString() + "]");
                 FinallyCorrectKeys.Logger.LogDebug("Replaced the " + inspectItemBinding + " binding.");
             }
+            else if (lineText.Contains("[Q/E]")) // In case of clipboard
+            {
+                lines[i].text = lineText.Replace("[Q/E]", string.Format("[{0}/{1}]", GetInputBinding(secondaryUseBinding), GetInputBinding(tertiaryUseBinding).ToDisplayString()));
+                FinallyCorrectKeys.Logger.LogDebug(string.Format("Replaced the {0} and {1} binding.", secondaryUseBinding, tertiaryUseBinding));
+            }
         }
     }
 
