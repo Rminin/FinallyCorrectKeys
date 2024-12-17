@@ -20,52 +20,59 @@ public class HUDManagerPatches
     [HarmonyPostfix]
     private static void ChangeControlTipMultiplePatch(HUDManager __instance)
     {
-        ReplaceKeysInControlTip(__instance.controlTipLines);
+        ReplaceKeysInControlTipMultiple(__instance.controlTipLines);
     }
 
     [HarmonyPatch(nameof(HUDManager.ChangeControlTip))]
     [HarmonyPostfix]
-    private static void ChangeControlTipPatch(HUDManager __instance)
+    private static void ChangeControlTipPatch(HUDManager __instance, int toolTipNumber)
     {
-        ReplaceKeysInControlTip(__instance.controlTipLines);
+
+        ReplaceKeysInControlTip(__instance.controlTipLines[toolTipNumber]);
     }
 
-    private static void ReplaceKeysInControlTip(TextMeshProUGUI[] lines)
+    private static void ReplaceKeysInControlTip(TextMeshProUGUI line)
     {
         // Change text
+        string lineText = line.text;
+        if (lineText.Contains("[G]"))
+        {
+            line.text = lineText.Replace("[G]", "[" + GetInputBinding(discardBinding).ToDisplayString() + "]");
+            FinallyCorrectKeys.Logger.LogDebug("Replaced the " + discardBinding + " binding.");
+        }
+        else if (lineText.Contains("[LMB]"))
+        {
+            line.text = lineText.Replace("[LMB]", "[" + GetInputBinding(activateItemBinding).ToDisplayString() + "]");
+            FinallyCorrectKeys.Logger.LogDebug("Replaced the " + activateItemBinding + " binding.");
+        }
+        else if (lineText.Contains("[Q]"))
+        {
+            line.text = lineText.Replace("[Q]", "[" + GetInputBinding(secondaryUseBinding).ToDisplayString() + "]");
+            FinallyCorrectKeys.Logger.LogDebug("Replaced the " + secondaryUseBinding + " binding.");
+        }
+        else if (lineText.Contains("[E]"))
+        {
+            line.text = lineText.Replace("[E]", "[" + GetInputBinding(tertiaryUseBinding).ToDisplayString() + "]");
+            FinallyCorrectKeys.Logger.LogDebug("Replaced the " + tertiaryUseBinding + " binding.");
+        }
+        else if (lineText.Contains("[Z]"))
+        {
+            line.text = lineText.Replace("[Z]", "[" + GetInputBinding(inspectItemBinding).ToDisplayString() + "]");
+            FinallyCorrectKeys.Logger.LogDebug("Replaced the " + inspectItemBinding + " binding.");
+        }
+        else if (lineText.Contains("[Q/E]")) // In case of clipboard
+        {
+            string replace = string.Format("[{0}/{1}]", GetInputBinding(secondaryUseBinding).ToDisplayString(), GetInputBinding(tertiaryUseBinding).ToDisplayString());
+            line.text = lineText.Replace("[Q/E]", replace);
+            FinallyCorrectKeys.Logger.LogDebug(string.Format("Replaced the {0} and {1} binding.", secondaryUseBinding, tertiaryUseBinding));
+        }
+    }
+
+    private static void ReplaceKeysInControlTipMultiple(TextMeshProUGUI[] lines)
+    {
         for (int i = 0; i < lines.Length; i++)
         {
-            string lineText = lines[i].text;
-            if (lineText.Contains("[G]"))
-            {
-                lines[i].text = lineText.Replace("[G]", "[" + GetInputBinding(discardBinding).ToDisplayString() + "]");
-                FinallyCorrectKeys.Logger.LogDebug("Replaced the " + discardBinding + " binding.");
-            }
-            else if (lineText.Contains("[LMB]"))
-            {
-                lines[i].text = lineText.Replace("[LMB]", "[" + GetInputBinding(activateItemBinding).ToDisplayString() + "]");
-                FinallyCorrectKeys.Logger.LogDebug("Replaced the " + activateItemBinding + " binding.");
-            }
-            else if (lineText.Contains("[Q]"))
-            {
-                lines[i].text = lineText.Replace("[Q]", "[" + GetInputBinding(secondaryUseBinding).ToDisplayString() + "]");
-                FinallyCorrectKeys.Logger.LogDebug("Replaced the " + secondaryUseBinding + " binding.");
-            }
-            else if (lineText.Contains("[E]"))
-            {
-                lines[i].text = lineText.Replace("[E]", "[" + GetInputBinding(tertiaryUseBinding).ToDisplayString() + "]");
-                FinallyCorrectKeys.Logger.LogDebug("Replaced the " + tertiaryUseBinding + " binding.");
-            }
-            else if (lineText.Contains("[Z]"))
-            {
-                lines[i].text = lineText.Replace("[Z]", "[" + GetInputBinding(inspectItemBinding).ToDisplayString() + "]");
-                FinallyCorrectKeys.Logger.LogDebug("Replaced the " + inspectItemBinding + " binding.");
-            }
-            else if (lineText.Contains("[Q/E]")) // In case of clipboard
-            {
-                lines[i].text = lineText.Replace("[Q/E]", string.Format("[{0}/{1}]", GetInputBinding(secondaryUseBinding), GetInputBinding(tertiaryUseBinding).ToDisplayString()));
-                FinallyCorrectKeys.Logger.LogDebug(string.Format("Replaced the {0} and {1} binding.", secondaryUseBinding, tertiaryUseBinding));
-            }
+            ReplaceKeysInControlTip(lines[i]);
         }
     }
 
