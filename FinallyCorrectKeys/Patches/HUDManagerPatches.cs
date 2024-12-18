@@ -1,23 +1,12 @@
-﻿using HarmonyLib;
+﻿using FinallyCorrectKeys.Util;
+using HarmonyLib;
 using TMPro;
-using UnityEngine.InputSystem;
 
 namespace FinallyCorrectKeys.Patches;
 
 [HarmonyPatch(typeof(HUDManager))]
 public class HUDManagerPatches
 {
-    private static readonly InputActionAsset actions = IngamePlayerSettings.Instance.playerInput.actions;
-
-    private static readonly string discardBinding = "Discard";
-    private static readonly string useBinding = "Use"; // Don't know where it gets used
-    private static readonly string activateItemBinding = "ActivateItem";
-    private static readonly string secondaryUseBinding = "ItemSecondaryUse";
-    private static readonly string tertiaryUseBinding = "ItemTertiaryUse";
-    private static readonly string inspectItemBinding = "InspectItem";
-    private static readonly string sprintBinding = "Sprint";
-    private static readonly string scanBinding = "PingScan";
-
     [HarmonyPatch(nameof(HUDManager.ChangeControlTipMultiple))]
     [HarmonyPostfix]
     private static void ChangeControlTipMultiplePatch(HUDManager __instance)
@@ -41,44 +30,44 @@ public class HUDManagerPatches
         string lineText = line.text;
         if (lineText.Contains("[G]"))
         {
-            line.text = lineText.Replace("[G]", "[" + GetInputBinding(discardBinding).ToDisplayString() + "]");
-            FinallyCorrectKeys.Logger.LogDebug("Replaced the " + discardBinding + " binding.");
+            line.text = lineText.Replace("[G]", "[" + ActionBindings.GetInputBindingString(ActionBindings.discardBinding) + "]");
+            FinallyCorrectKeys.Logger.LogDebug("Replaced the " + ActionBindings.discardBinding + " binding.");
         }
         else if (lineText.Contains("[LMB]"))
         {
-            line.text = lineText.Replace("[LMB]", "[" + GetInputBinding(activateItemBinding).ToDisplayString() + "]");
-            FinallyCorrectKeys.Logger.LogDebug("Replaced the " + activateItemBinding + " binding.");
+            line.text = lineText.Replace("[LMB]", "[" + ActionBindings.GetInputBindingString(ActionBindings.activateItemBinding) + "]");
+            FinallyCorrectKeys.Logger.LogDebug("Replaced the " + ActionBindings.activateItemBinding + " binding.");
         }
         else if (lineText.Contains("[Q]"))
         {
-            line.text = lineText.Replace("[Q]", "[" + GetInputBinding(secondaryUseBinding).ToDisplayString() + "]");
-            FinallyCorrectKeys.Logger.LogDebug("Replaced the " + secondaryUseBinding + " binding.");
+            line.text = lineText.Replace("[Q]", "[" + ActionBindings.GetInputBindingString(ActionBindings.secondaryUseBinding) + "]");
+            FinallyCorrectKeys.Logger.LogDebug("Replaced the " + ActionBindings.secondaryUseBinding + " binding.");
         }
         else if (lineText.Contains("[E]"))
         {
-            line.text = lineText.Replace("[E]", "[" + GetInputBinding(tertiaryUseBinding).ToDisplayString() + "]");
-            FinallyCorrectKeys.Logger.LogDebug("Replaced the " + tertiaryUseBinding + " binding.");
+            line.text = lineText.Replace("[E]", "[" + ActionBindings.GetInputBindingString(ActionBindings.tertiaryUseBinding) + "]");
+            FinallyCorrectKeys.Logger.LogDebug("Replaced the " + ActionBindings.tertiaryUseBinding + " binding.");
         }
         else if (lineText.Contains("[Z]"))
         {
-            line.text = lineText.Replace("[Z]", "[" + GetInputBinding(inspectItemBinding).ToDisplayString() + "]");
-            FinallyCorrectKeys.Logger.LogDebug("Replaced the " + inspectItemBinding + " binding.");
+            line.text = lineText.Replace("[Z]", "[" + ActionBindings.GetInputBindingString(ActionBindings.inspectItemBinding) + "]");
+            FinallyCorrectKeys.Logger.LogDebug("Replaced the " + ActionBindings.inspectItemBinding + " binding.");
         }
         else if (lineText.Contains("[Q/E]")) // In case of clipboard
         {
-            string replace = string.Format("[{0}/{1}]", GetInputBinding(secondaryUseBinding).ToDisplayString(), GetInputBinding(tertiaryUseBinding).ToDisplayString());
+            string replace = string.Format("[{0}/{1}]", ActionBindings.GetInputBindingString(ActionBindings.secondaryUseBinding), ActionBindings.GetInputBindingString(ActionBindings.tertiaryUseBinding));
             line.text = lineText.Replace("[Q/E]", replace);
-            FinallyCorrectKeys.Logger.LogDebug(string.Format("Replaced the {0} and {1} binding.", secondaryUseBinding, tertiaryUseBinding));
+            FinallyCorrectKeys.Logger.LogDebug(string.Format("Replaced the {0} and {1} binding.", ActionBindings.secondaryUseBinding, ActionBindings.tertiaryUseBinding));
         }
         else if (lineText.StartsWith("Sprint")) // In case of round starting // DOESN'T WORK 😭
         {
-            line.text = lineText.Replace("[Shift]", "[" + GetInputBinding(sprintBinding).ToDisplayString() + "]");
-            FinallyCorrectKeys.Logger.LogDebug("Replaced the " + sprintBinding + " binding.");
+            line.text = lineText.Replace("[Shift]", "[" + ActionBindings.GetInputBindingString(ActionBindings.sprintBinding) + "]");
+            FinallyCorrectKeys.Logger.LogDebug("Replaced the " + ActionBindings.sprintBinding + " binding.");
         }
         else if (lineText.StartsWith("Scan")) // In case of round starting // DOESN'T WORK 😭
         {
-            line.text = lineText.Replace("[RMB]", "[" + GetInputBinding(scanBinding).ToDisplayString() + "]");
-            FinallyCorrectKeys.Logger.LogDebug("Replaced the " + scanBinding + " binding.");
+            line.text = lineText.Replace("[RMB]", "[" + ActionBindings.GetInputBindingString(ActionBindings.scanBinding) + "]");
+            FinallyCorrectKeys.Logger.LogDebug("Replaced the " + ActionBindings.scanBinding + " binding.");
         }
     }
 
@@ -88,10 +77,5 @@ public class HUDManagerPatches
         {
             ReplaceKeysInControlTip(lines[i]);
         }
-    }
-
-    private static InputBinding GetInputBinding(string actionName)
-    {
-        return actions.FindAction(actionName).bindings[0];
     }
 }

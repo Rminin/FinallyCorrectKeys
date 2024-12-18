@@ -1,16 +1,12 @@
-﻿using GameNetcodeStuff;
+﻿using FinallyCorrectKeys.Util;
+using GameNetcodeStuff;
 using HarmonyLib;
-using UnityEngine.InputSystem;
 
 namespace FinallyCorrectKeys.Patches;
 
 [HarmonyPatch(typeof(PlayerControllerB))]
 public class PlayerControllerBPatches
 {
-    private static readonly InputActionAsset actions = IngamePlayerSettings.Instance.playerInput.actions;
-
-    private static readonly string interactBinding = "Interact";
-
     [HarmonyPatch(nameof(PlayerControllerB.SetHoverTipAndCurrentInteractTrigger))]
     [HarmonyPostfix]
     private static void SetHoverTipAndCurrentInteractTriggerPatch(PlayerControllerB __instance)
@@ -18,15 +14,11 @@ public class PlayerControllerBPatches
         var cursorTip = __instance.cursorTip;
         if (cursorTip.text.Contains("[E]"))
         {
-            cursorTip.text = cursorTip.text.Replace("[E]", "[" + GetInputBinding(interactBinding).ToDisplayString() + "]");
+            cursorTip.text = cursorTip.text.Replace("[E]", "[" + ActionBindings.GetInputBindingString(ActionBindings.interactBinding) + "]");
 #if DEBUG
             // This method is called in "Update", only included in Debug to increase performance
-            FinallyCorrectKeys.Logger.LogDebug("Replaced the " + interactBinding + " binding.");
+            FinallyCorrectKeys.Logger.LogDebug("Replaced the " + ActionBindings.interactBinding + " binding.");
 #endif
         }
-    }
-    private static InputBinding GetInputBinding(string actionName)
-    {
-        return actions.FindAction(actionName).bindings[0];
     }
 }
