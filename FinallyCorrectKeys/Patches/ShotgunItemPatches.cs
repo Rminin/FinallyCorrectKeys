@@ -15,7 +15,7 @@ public class ShotgunItemPatches
     private static void SetControlTipsForItemPatch(ShotgunItem __instance)
     {
         __instance.itemProperties.toolTips[2] = __instance.itemProperties.toolTips[2].Replace("[Q]", "[" + GetInputBinding(secondaryUseBinding).ToDisplayString() + "]");
-        FinallyCorrectKeys.Logger.LogDebug("Replaced the " + secondaryUseBinding + " binding inside the ShotgunItem class.");
+        FinallyCorrectKeys.Logger.LogDebug(nameof(ShotgunItemPatches) + ": Replaced the " + secondaryUseBinding + " binding.");
         HUDManager.Instance.ChangeControlTipMultiple(__instance.itemProperties.toolTips, holdingItem: true, __instance.itemProperties);
     }
 
@@ -27,8 +27,8 @@ public class ShotgunItemPatches
         changeTo = changeTo + "[" + GetInputBinding(secondaryUseBinding).ToDisplayString() + "]";
         if (__instance.IsOwner)
         {
-            FinallyCorrectKeys.Logger.LogDebug("Inside IsOwner if block.");
-            FinallyCorrectKeys.Logger.LogDebug("Replaced the " + secondaryUseBinding + " binding inside the ShotgunItem class.");
+            FinallyCorrectKeys.Logger.LogDebug(nameof(ShotgunItemPatches) + ": Replaced the " + secondaryUseBinding + " binding.");
+            FinallyCorrectKeys.Logger.LogDebug(nameof(ShotgunItemPatches) + ": Calling ChangeControlTip.");
             HUDManager.Instance.ChangeControlTip(3, changeTo);
         }
     }

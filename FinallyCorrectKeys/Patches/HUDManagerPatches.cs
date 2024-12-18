@@ -27,13 +27,11 @@ public class HUDManagerPatches
 
     [HarmonyPatch(nameof(HUDManager.ChangeControlTip))]
     [HarmonyPostfix]
-    private static void ChangeControlTipPatch(HUDManager __instance, int toolTipNumber)
+    public static void ChangeControlTipPatch(HUDManager __instance, int toolTipNumber, string changeTo)
     {
-        FinallyCorrectKeys.Logger.LogDebug("ToolTipNumber: " + toolTipNumber);
-        FinallyCorrectKeys.Logger.LogDebug("Linetext: " + __instance.controlTipLines[toolTipNumber].text);
-
-        __instance.controlTipLines[toolTipNumber].text = __instance.controlTipLines[toolTipNumber].text.Replace("[Q]", "[" + GetInputBinding(secondaryUseBinding).ToDisplayString() + "]");
-        FinallyCorrectKeys.Logger.LogDebug("Linetext changed: " + __instance.controlTipLines[toolTipNumber].text);
+        FinallyCorrectKeys.Logger.LogDebug("ToolTipNumber: " + toolTipNumber
+            + "; Linetext: " + __instance.controlTipLines[toolTipNumber].text 
+            + "; ChangeTo: " + changeTo);
         ReplaceKeysInControlTip(__instance.controlTipLines[toolTipNumber]);
     }
 
