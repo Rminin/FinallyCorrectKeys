@@ -17,7 +17,7 @@ public class PlayerControllerBPatches
             cursorTip.text = BindingReplacer.Replace(cursorTip.text, "[E]", ActionBindings.interactBinding);
 #if DEBUG
             // This method is called in "Update", only included in Debug to increase performance
-            FinallyCorrectKeys.Logger.LogDebug("Replaced the " + ActionBindings.interactBinding + " binding.");
+            FinallyCorrectKeys.Logger.LogDebug(string.Format("[{0}] Replaced the {1}  binding.", nameof(PlayerControllerBPatches), ActionBindings.interactBinding));
 #endif
         }
     }

@@ -15,7 +15,7 @@ public class ShipBuildModeManagerPatches
         replace = BindingReplacer.Replace(replace, "[R]", ActionBindings.rotateBinding);
         replace = BindingReplacer.Replace(replace, "[X]", ActionBindings.storeBinding);
         HUDManager.Instance.buildModeControlTip.text = replace;
-        FinallyCorrectKeys.Logger.LogDebug(string.Format("Replaced the {0} and {1} and {2} binding."
-            , ActionBindings.buildBinding, ActionBindings.rotateBinding, ActionBindings.storeBinding));
+        FinallyCorrectKeys.Logger.LogDebug(string.Format("[{0}] Replaced the {1} and {2} and {3} binding."
+            , nameof(ShipBuildModeManagerPatches), ActionBindings.buildBinding, ActionBindings.rotateBinding, ActionBindings.storeBinding));
     }
 }
