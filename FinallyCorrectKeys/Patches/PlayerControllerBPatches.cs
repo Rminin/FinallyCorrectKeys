@@ -19,7 +19,10 @@ public class PlayerControllerBPatches
         if (cursorTip.text.Contains("[E]"))
         {
             cursorTip.text = cursorTip.text.Replace("[E]", "[" + GetInputBinding(interactBinding).ToDisplayString() + "]");
+#if DEBUG
+            // This method is called in "Update", only included in Debug to increase performance
             FinallyCorrectKeys.Logger.LogDebug("Replaced the " + interactBinding + " binding.");
+#endif
         }
     }
     private static InputBinding GetInputBinding(string actionName)
