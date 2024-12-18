@@ -10,7 +10,7 @@ public class ShotgunItemPatches
     [HarmonyPostfix]
     private static void SetControlTipsForItemPatch(ShotgunItem __instance)
     {
-        __instance.itemProperties.toolTips[2] = __instance.itemProperties.toolTips[2].Replace("[Q]", "[" + ActionBindings.GetInputBindingString(ActionBindings.secondaryUseBinding) + "]");
+        __instance.itemProperties.toolTips[2] = BindingReplacer.Replace(__instance.itemProperties.toolTips[2], "[Q]", ActionBindings.secondaryUseBinding);
         FinallyCorrectKeys.Logger.LogDebug(nameof(ShotgunItemPatches) + ": Replaced the " + ActionBindings.secondaryUseBinding + " binding.");
         HUDManager.Instance.ChangeControlTipMultiple(__instance.itemProperties.toolTips, holdingItem: true, __instance.itemProperties);
     }

@@ -11,9 +11,9 @@ public class ShipBuildModeManagerPatches
     private static void CreateGhostObjectAndHighlight(ShipBuildModeManager __instance)
     {
         string replace = HUDManager.Instance.buildModeControlTip.text;
-        replace = replace.Replace("[B]", string.Format("[{0}]", ActionBindings.GetInputBindingString(ActionBindings.buildBinding)));
-        replace = replace.Replace("[R]", string.Format("[{0}]", ActionBindings.GetInputBindingString(ActionBindings.rotateBinding)));
-        replace = replace.Replace("[X]", string.Format("[{0}]", ActionBindings.GetInputBindingString(ActionBindings.storeBinding)));
+        replace = BindingReplacer.Replace(replace, "[B]", ActionBindings.buildBinding);
+        replace = BindingReplacer.Replace(replace, "[R]", ActionBindings.rotateBinding);
+        replace = BindingReplacer.Replace(replace, "[X]", ActionBindings.storeBinding);
         HUDManager.Instance.buildModeControlTip.text = replace;
         FinallyCorrectKeys.Logger.LogDebug(string.Format("Replaced the {0} and {1} and {2} binding."
             , ActionBindings.buildBinding, ActionBindings.rotateBinding, ActionBindings.storeBinding));

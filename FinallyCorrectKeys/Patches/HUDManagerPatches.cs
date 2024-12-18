@@ -27,46 +27,46 @@ public class HUDManagerPatches
     private static void ReplaceKeysInControlTip(TextMeshProUGUI line)
     {
         // Change text
-        string lineText = line.text;
-        if (lineText.Contains("[G]"))
+        string oldText = line.text;
+        if (oldText.Contains("[G]"))
         {
-            line.text = lineText.Replace("[G]", "[" + ActionBindings.GetInputBindingString(ActionBindings.discardBinding) + "]");
+            line.text = BindingReplacer.Replace(oldText, "[G]", ActionBindings.discardBinding);
             FinallyCorrectKeys.Logger.LogDebug("Replaced the " + ActionBindings.discardBinding + " binding.");
         }
-        else if (lineText.Contains("[LMB]"))
+        else if (oldText.Contains("[LMB]"))
         {
-            line.text = lineText.Replace("[LMB]", "[" + ActionBindings.GetInputBindingString(ActionBindings.activateItemBinding) + "]");
+            line.text = BindingReplacer.Replace(oldText, "[LMB]", ActionBindings.activateItemBinding);
             FinallyCorrectKeys.Logger.LogDebug("Replaced the " + ActionBindings.activateItemBinding + " binding.");
         }
-        else if (lineText.Contains("[Q]"))
+        else if (oldText.Contains("[Q]"))
         {
-            line.text = lineText.Replace("[Q]", "[" + ActionBindings.GetInputBindingString(ActionBindings.secondaryUseBinding) + "]");
+            line.text = BindingReplacer.Replace(oldText, "[Q]", ActionBindings.secondaryUseBinding);
             FinallyCorrectKeys.Logger.LogDebug("Replaced the " + ActionBindings.secondaryUseBinding + " binding.");
         }
-        else if (lineText.Contains("[E]"))
+        else if (oldText.Contains("[E]"))
         {
-            line.text = lineText.Replace("[E]", "[" + ActionBindings.GetInputBindingString(ActionBindings.tertiaryUseBinding) + "]");
+            line.text = BindingReplacer.Replace(oldText, "[E]", ActionBindings.tertiaryUseBinding);
             FinallyCorrectKeys.Logger.LogDebug("Replaced the " + ActionBindings.tertiaryUseBinding + " binding.");
         }
-        else if (lineText.Contains("[Z]"))
+        else if (oldText.Contains("[Z]"))
         {
-            line.text = lineText.Replace("[Z]", "[" + ActionBindings.GetInputBindingString(ActionBindings.inspectItemBinding) + "]");
+            line.text = BindingReplacer.Replace(oldText, "[Z]", ActionBindings.inspectItemBinding);
             FinallyCorrectKeys.Logger.LogDebug("Replaced the " + ActionBindings.inspectItemBinding + " binding.");
         }
-        else if (lineText.Contains("[Q/E]")) // In case of clipboard
+        else if (oldText.Contains("[Q/E]")) // In case of clipboard
         {
             string replace = string.Format("[{0}/{1}]", ActionBindings.GetInputBindingString(ActionBindings.secondaryUseBinding), ActionBindings.GetInputBindingString(ActionBindings.tertiaryUseBinding));
-            line.text = lineText.Replace("[Q/E]", replace);
+            line.text = oldText.Replace("[Q/E]", replace);
             FinallyCorrectKeys.Logger.LogDebug(string.Format("Replaced the {0} and {1} binding.", ActionBindings.secondaryUseBinding, ActionBindings.tertiaryUseBinding));
         }
-        else if (lineText.StartsWith("Sprint")) // In case of round starting // DOESN'T WORK 😭
+        else if (oldText.StartsWith("Sprint")) // In case of round starting // DOESN'T WORK 😭
         {
-            line.text = lineText.Replace("[Shift]", "[" + ActionBindings.GetInputBindingString(ActionBindings.sprintBinding) + "]");
+            line.text = BindingReplacer.Replace(oldText, "[Shift]", ActionBindings.sprintBinding);
             FinallyCorrectKeys.Logger.LogDebug("Replaced the " + ActionBindings.sprintBinding + " binding.");
         }
-        else if (lineText.StartsWith("Scan")) // In case of round starting // DOESN'T WORK 😭
+        else if (oldText.StartsWith("Scan")) // In case of round starting // DOESN'T WORK 😭
         {
-            line.text = lineText.Replace("[RMB]", "[" + ActionBindings.GetInputBindingString(ActionBindings.scanBinding) + "]");
+            line.text = BindingReplacer.Replace(oldText, "[RMB]", ActionBindings.scanBinding);
             FinallyCorrectKeys.Logger.LogDebug("Replaced the " + ActionBindings.scanBinding + " binding.");
         }
     }
