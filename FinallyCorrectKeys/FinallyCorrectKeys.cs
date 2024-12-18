@@ -1,14 +1,11 @@
 using BepInEx;
 using BepInEx.Logging;
 using HarmonyLib;
-using LobbyCompatibility.Attributes;
-using LobbyCompatibility.Enums;
 
 namespace FinallyCorrectKeys;
 
 [BepInPlugin(MyPluginInfo.PLUGIN_GUID, MyPluginInfo.PLUGIN_NAME, MyPluginInfo.PLUGIN_VERSION)]
 [BepInDependency("BMX.LobbyCompatibility", BepInDependency.DependencyFlags.SoftDependency)]
-//[LobbyCompatibility(CompatibilityLevel.ClientOnly, VersionStrictness.None)]
 public class FinallyCorrectKeys : BaseUnityPlugin
 {
     public static FinallyCorrectKeys Instance { get; private set; } = null!;
@@ -21,6 +18,8 @@ public class FinallyCorrectKeys : BaseUnityPlugin
         Instance = this;
 
         Patch();
+
+        LobbyCompatibilityConfig.Init(this);
 
         Logger.LogInfo($"{MyPluginInfo.PLUGIN_GUID} v{MyPluginInfo.PLUGIN_VERSION} has loaded!");
     }
