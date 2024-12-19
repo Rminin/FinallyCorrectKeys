@@ -27,6 +27,8 @@ public class HUDManagerPatches
     {
         // Change text
         string oldText = line.text;
+        if (string.IsNullOrWhiteSpace(oldText)) return;
+
         if (oldText.Contains("[G]"))
         {
             line.text = BindingReplacer.Replace(oldText, "[G]", ActionBindings.discardBinding);
