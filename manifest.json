@@ -1,0 +1,9 @@
+{
+    "name": "FinallyCorrectKeys",
+    "version_number": "1.2.1",
+    "website_url": "https://github.com/Rminin/FinallyCorrectKeys",
+    "description": "Corrects most UI elements to display the currently bound key (Keyboard).",
+    "dependencies": [
+        "BepInEx-BepInExPack-5.4.2100"
+    ]
+}
