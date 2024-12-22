@@ -7,6 +7,17 @@ namespace FinallyCorrectKeys.Patches;
 [HarmonyPatch(typeof(HUDManager))]
 public class HUDManagerPatches
 {
+    [HarmonyPatch(nameof(HUDManager.Awake))]
+    [HarmonyPostfix]
+    public static void AwakePatch(HUDManager __instance)
+    {
+        foreach (var controlTipLine in __instance.controlTipLines)
+        {
+            controlTipLine.enableWordWrapping = false;
+        }
+        FinallyCorrectKeys.Logger.LogDebug(string.Format("[{0}] Disabled word wrapping of controlTipLines.", nameof(HUDManagerPatches)));
+    }
+
     [HarmonyPatch(nameof(HUDManager.ChangeControlTipMultiple))]
     [HarmonyPostfix]
     private static void ChangeControlTipMultiplePatch(HUDManager __instance)
