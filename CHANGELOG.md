@@ -1,3 +1,7 @@
+### [1.2.2]
+- Disabled word wrapping on the control tips
+- Updated README
+
 ### [1.2.1]
 - Initial release
 

@@ -1,6 +1,6 @@
 {
     "name": "FinallyCorrectKeys",
-    "version_number": "1.2.1",
+    "version_number": "1.2.2",
     "website_url": "https://github.com/Rminin/FinallyCorrectKeys",
     "description": "Corrects most UI elements to display the currently bound key (Keyboard).",
     "dependencies": [
