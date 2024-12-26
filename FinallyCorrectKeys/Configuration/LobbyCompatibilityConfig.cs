@@ -3,7 +3,7 @@ using BepInEx.Bootstrap;
 using LobbyCompatibility.Enums;
 using LobbyCompatibility.Features;
 
-namespace FinallyCorrectKeys;
+namespace FinallyCorrectKeys.Configuration;
 
 internal static class LobbyCompatibilityConfig
 {

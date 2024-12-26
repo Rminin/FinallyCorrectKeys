@@ -1,5 +1,6 @@
 using BepInEx;
 using BepInEx.Logging;
+using FinallyCorrectKeys.Configuration;
 using HarmonyLib;
 
 namespace FinallyCorrectKeys;
@@ -16,6 +17,8 @@ public class FinallyCorrectKeys : BaseUnityPlugin
     {
         Logger = base.Logger;
         Instance = this;
+
+        Configuration.Config.Load(this.Config);
 
         Patch();
 
