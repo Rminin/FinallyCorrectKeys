@@ -1,4 +1,4 @@
-using FinallyCorrectKeys.Configuration;
+﻿using FinallyCorrectKeys.Configuration;
 using FinallyCorrectKeys.Util;
 using HarmonyLib;
 using TMPro;
@@ -14,9 +14,9 @@ public class HUDManagerPatches
     {
         foreach (var controlTipLine in __instance.controlTipLines)
         {
-            controlTipLine.enableWordWrapping = false;
+            controlTipLine.enableWordWrapping = !Config.disableWordWrap.Value;
         }
-        FinallyCorrectKeys.Logger.LogDebug(string.Format("[{0}] Disabled word wrapping of controlTipLines.", nameof(HUDManagerPatches)));
+        FinallyCorrectKeys.Logger.LogDebug(string.Format("[{0}] Changed word wrapping of controlTipLines.", nameof(HUDManagerPatches)));
     }
 
     [HarmonyPatch(nameof(HUDManager.ChangeControlTipMultiple))]
