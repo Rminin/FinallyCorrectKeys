@@ -1,3 +1,8 @@
+### [1.3.0]
+- Added config für disabling word wrapping
+- Added option and config for hiding control tips entirely
+- Added compatibility with LethalConfig
+
 ### [1.2.2]
 - Disabled word wrapping on the control tips
 - Updated README
