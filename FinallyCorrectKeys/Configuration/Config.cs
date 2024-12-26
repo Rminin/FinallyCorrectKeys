@@ -16,7 +16,8 @@ internal class Config
         disableControlTips = config.Bind("General",
             "Disable Control Tips",
             false,
-            "Hides the control tips (should also work if other mods that use the control tips).");
+            "Hides the control tips (should also work if other mods that use the control tips).\n" +
+            "If you disable this setting while control tips are hidden, you need to change the inventory slot to reload them.");
 
         disableWordWrap = config.Bind("General",
             "Disable Word Wrap",
