@@ -1,4 +1,5 @@
-﻿using FinallyCorrectKeys.Util;
+using FinallyCorrectKeys.Configuration;
+using FinallyCorrectKeys.Util;
 using HarmonyLib;
 using TMPro;
 
@@ -22,6 +23,12 @@ public class HUDManagerPatches
     [HarmonyPostfix]
     private static void ChangeControlTipMultiplePatch(HUDManager __instance)
     {
+        if (Config.disableControlTips.Value)
+        {
+            HideControlTips(__instance.controlTipLines);
+            return;
+        }
+
         ReplaceKeysInControlTipMultiple(__instance.controlTipLines);
     }
 
@@ -29,6 +36,12 @@ public class HUDManagerPatches
     [HarmonyPostfix]
     public static void ChangeControlTipPatch(HUDManager __instance, int toolTipNumber, string changeTo)
     {
+        if (Config.disableControlTips.Value)
+        {
+            HideControlTips(__instance.controlTipLines);
+            return;
+        }
+
         FinallyCorrectKeys.Logger.LogDebug(string.Format("[{0}] ToolTipNumber: {1}; Linetext: {2}; ChangeTo: {3}",
             nameof(HUDManagerPatches), toolTipNumber, __instance.controlTipLines[toolTipNumber].text, changeTo));
         ReplaceKeysInControlTip(__instance.controlTipLines[toolTipNumber]);
@@ -88,6 +101,14 @@ public class HUDManagerPatches
         for (int i = 0; i < lines.Length; i++)
         {
             ReplaceKeysInControlTip(lines[i]);
+        }
+    }
+    
+    private static void HideControlTips(TextMeshProUGUI[] lines)
+    {
+        for (int i = 0; i < lines.Length; i++)
+        {
+            lines[i].text = "";
         }
     }
 }
