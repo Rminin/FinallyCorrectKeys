@@ -17,7 +17,6 @@ public class HUDManagerPatches
         _instance = __instance;
 
         ApplyWordWrapConfig();
-        FinallyCorrectKeys.Logger.LogDebug(string.Format("[{0}] Changed word wrapping of controlTipLines.", nameof(HUDManagerPatches)));
     }
 
     [HarmonyPatch(nameof(HUDManager.ChangeControlTipMultiple))]
@@ -54,6 +53,12 @@ public class HUDManagerPatches
         {
             controlTipLine.enableWordWrapping = !Config.disableWordWrap.Value;
         }
+        FinallyCorrectKeys.Logger.LogDebug(string.Format("[{0}] Disable word wrapping of controlTipLines: {1}", nameof(HUDManagerPatches), !Config.disableWordWrap.Value));
+    }
+
+    public static void HideControlTips()
+    {
+        HideControlTips(_instance.controlTipLines);
     }
 
     private static void ReplaceKeysInControlTip(TextMeshProUGUI line)
@@ -119,5 +124,6 @@ public class HUDManagerPatches
         {
             lines[i].text = "";
         }
+        FinallyCorrectKeys.Logger.LogDebug(string.Format("[{0}] Hid control tips.", nameof(HUDManagerPatches)));
     }
 }

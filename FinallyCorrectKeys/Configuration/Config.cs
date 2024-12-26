@@ -33,10 +33,22 @@ internal class Config
     internal static void LoadLethalConfig()
     {
         var controlTipBox = new BoolCheckBoxConfigItem(disableControlTips, requiresRestart: false);
+        disableControlTips.SettingChanged += (_, _) =>
+        {
+            if (disableControlTips.Value)
+            {
+                HUDManagerPatches.HideControlTips();
+            }
+            FinallyCorrectKeys.Logger.LogDebug(string.Format("[{0}] Option {1} changed in LethalConfig", nameof(Config), nameof(disableControlTips)));
+        };
         LethalConfigManager.AddConfigItem(controlTipBox);
 
         var wordWrap = new BoolCheckBoxConfigItem(disableWordWrap, requiresRestart: false);
-        disableWordWrap.SettingChanged += (_, _) => HUDManagerPatches.ApplyWordWrapConfig();
+        disableWordWrap.SettingChanged += (_, _) =>
+        {
+            HUDManagerPatches.ApplyWordWrapConfig();
+            FinallyCorrectKeys.Logger.LogDebug(string.Format("[{0}] Option {1} changed in LethalConfig", nameof(Config), nameof(disableWordWrap)));
+        };
         LethalConfigManager.AddConfigItem(wordWrap);
     }
 }
