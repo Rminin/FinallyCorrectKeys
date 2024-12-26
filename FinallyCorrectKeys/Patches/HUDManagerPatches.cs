@@ -8,14 +8,15 @@ namespace FinallyCorrectKeys.Patches;
 [HarmonyPatch(typeof(HUDManager))]
 public class HUDManagerPatches
 {
+    private static HUDManager _instance = null!;
+
     [HarmonyPatch(nameof(HUDManager.Awake))]
     [HarmonyPostfix]
     public static void AwakePatch(HUDManager __instance)
     {
-        foreach (var controlTipLine in __instance.controlTipLines)
-        {
-            controlTipLine.enableWordWrapping = !Config.disableWordWrap.Value;
-        }
+        _instance = __instance;
+
+        ApplyWordWrapConfig();
         FinallyCorrectKeys.Logger.LogDebug(string.Format("[{0}] Changed word wrapping of controlTipLines.", nameof(HUDManagerPatches)));
     }
 
@@ -45,6 +46,14 @@ public class HUDManagerPatches
         FinallyCorrectKeys.Logger.LogDebug(string.Format("[{0}] ToolTipNumber: {1}; Linetext: {2}; ChangeTo: {3}",
             nameof(HUDManagerPatches), toolTipNumber, __instance.controlTipLines[toolTipNumber].text, changeTo));
         ReplaceKeysInControlTip(__instance.controlTipLines[toolTipNumber]);
+    }
+
+    public static void ApplyWordWrapConfig()
+    {
+        foreach (var controlTipLine in _instance.controlTipLines)
+        {
+            controlTipLine.enableWordWrapping = !Config.disableWordWrap.Value;
+        }
     }
 
     private static void ReplaceKeysInControlTip(TextMeshProUGUI line)

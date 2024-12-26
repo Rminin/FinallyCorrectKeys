@@ -1,4 +1,8 @@
-﻿using BepInEx.Configuration;
+﻿using BepInEx.Bootstrap;
+using BepInEx.Configuration;
+using FinallyCorrectKeys.Patches;
+using LethalConfig;
+using LethalConfig.ConfigItems;
 
 namespace FinallyCorrectKeys.Configuration;
 
@@ -18,5 +22,20 @@ internal class Config
             "Disable Word Wrap",
             true,
             "Changes the lines of the control tips to not wrap words if the line is long.");
+
+        if (Chainloader.PluginInfos.ContainsKey("ainavt.lc.lethalconfig"))
+        {
+            LoadLethalConfig();
+        }
+    }
+
+    internal static void LoadLethalConfig()
+    {
+        var controlTipBox = new BoolCheckBoxConfigItem(disableControlTips, requiresRestart: false);
+        LethalConfigManager.AddConfigItem(controlTipBox);
+
+        var wordWrap = new BoolCheckBoxConfigItem(disableWordWrap, requiresRestart: false);
+        disableWordWrap.SettingChanged += (_, _) => HUDManagerPatches.ApplyWordWrapConfig();
+        LethalConfigManager.AddConfigItem(wordWrap);
     }
 }
