@@ -10,7 +10,7 @@ Only supports Keyboard keybinds for now.
 - Option to hide control tips entirely (configurable)
 
 ## Compatibilites
-- [LobbyCompatibilites](https://thunderstore.io/c/lethal-company/p/BMX/LobbyCompatibility/) by [BMX](https://thunderstore.io/c/lethal-company/p/BMX/)
+- [LobbyCompatibility](https://thunderstore.io/c/lethal-company/p/BMX/LobbyCompatibility/) by [BMX](https://thunderstore.io/c/lethal-company/p/BMX/)
 - [LethalConfig](https://thunderstore.io/c/lethal-company/p/AinaVT/LethalConfig/) by [AinaVT](https://thunderstore.io/c/lethal-company/p/AinaVT/)
 
 ## Planned (maybe)
