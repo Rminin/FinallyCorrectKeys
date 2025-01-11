@@ -42,9 +42,19 @@ public class HUDManagerPatches
             return;
         }
 
-        FinallyCorrectKeys.Logger.LogDebug(string.Format("[{0}] ToolTipNumber: {1}; Linetext: {2}; ChangeTo: {3}",
+        FinallyCorrectKeys.Logger.LogDebug(string.Format("[{0}]\nToolTipNumber: {1}\nLinetext: {2}\nChangeTo: {3}",
             nameof(HUDManagerPatches), toolTipNumber, __instance.controlTipLines[toolTipNumber].text, changeTo));
         ReplaceKeysInControlTip(__instance.controlTipLines[toolTipNumber]);
+        
+        
+        if (__instance.forceChangeTextCoroutine != null)
+        {
+            __instance.StopCoroutine(__instance.forceChangeTextCoroutine);
+            FinallyCorrectKeys.Logger.LogDebug($"[{nameof(HUDManagerPatches)}] Coroutine to force text change stopped.");
+        }
+        var changeToNew = __instance.controlTipLines[toolTipNumber].text;
+        __instance.forceChangeTextCoroutine = __instance.StartCoroutine(__instance.ForceChangeText(__instance.controlTipLines[toolTipNumber], changeToNew));
+        FinallyCorrectKeys.Logger.LogDebug($"[{nameof(HUDManagerPatches)}] Coroutine to force text change started.\nLine {toolTipNumber} change to: {changeToNew}");
     }
 
     public static void ApplyWordWrapConfig()
@@ -108,6 +118,7 @@ public class HUDManagerPatches
             line.text = BindingReplacer.Replace(oldText, "[RMB]", ActionBindings.scanBinding);
             FinallyCorrectKeys.Logger.LogDebug(string.Format("[{0}] Replaced the {1}  binding.", nameof(HUDManagerPatches), ActionBindings.scanBinding));
         }
+        FinallyCorrectKeys.Logger.LogDebug($"[{nameof(HUDManagerPatches)}] Line replaced.\nOld: {oldText}\nNew: {line.text}");
     }
 
     private static void ReplaceKeysInControlTipMultiple(TextMeshProUGUI[] lines)
