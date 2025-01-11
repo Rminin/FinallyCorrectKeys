@@ -42,19 +42,18 @@ public class HUDManagerPatches
             return;
         }
 
-        FinallyCorrectKeys.Logger.LogDebug(string.Format("[{0}]\nToolTipNumber: {1}\nLinetext: {2}\nChangeTo: {3}",
-            nameof(HUDManagerPatches), toolTipNumber, __instance.controlTipLines[toolTipNumber].text, changeTo));
+        FinallyCorrectKeys.Logger.LogDebug(string.Format("[{0}] Parameters of ChangeControlTip:\nToolTipNumber: {1}\nChangeTo: {2}",
+            nameof(HUDManagerPatches), toolTipNumber, changeTo));
         ReplaceKeysInControlTip(__instance.controlTipLines[toolTipNumber]);
-        
         
         if (__instance.forceChangeTextCoroutine != null)
         {
             __instance.StopCoroutine(__instance.forceChangeTextCoroutine);
             FinallyCorrectKeys.Logger.LogDebug($"[{nameof(HUDManagerPatches)}] Coroutine to force text change stopped.");
         }
-        var changeToNew = __instance.controlTipLines[toolTipNumber].text;
-        __instance.forceChangeTextCoroutine = __instance.StartCoroutine(__instance.ForceChangeText(__instance.controlTipLines[toolTipNumber], changeToNew));
-        FinallyCorrectKeys.Logger.LogDebug($"[{nameof(HUDManagerPatches)}] Coroutine to force text change started.\nLine {toolTipNumber} change to: {changeToNew}");
+        TextMeshProUGUI line = __instance.controlTipLines[toolTipNumber];
+        __instance.forceChangeTextCoroutine = __instance.StartCoroutine(__instance.ForceChangeText(line, line.text));
+        FinallyCorrectKeys.Logger.LogDebug($"[{nameof(HUDManagerPatches)}] Coroutine to force text change started.");
     }
 
     public static void ApplyWordWrapConfig()
@@ -77,48 +76,49 @@ public class HUDManagerPatches
         string oldText = line.text;
         if (string.IsNullOrWhiteSpace(oldText)) return;
 
+        string replacedBinding = string.Empty;
         if (oldText.Contains("[G]"))
         {
             line.text = BindingReplacer.Replace(oldText, "[G]", ActionBindings.discardBinding);
-            FinallyCorrectKeys.Logger.LogDebug(string.Format("[{0}] Replaced the {1}  binding.", nameof(HUDManagerPatches), ActionBindings.discardBinding));
+            replacedBinding = ActionBindings.discardBinding;
         }
         else if (oldText.Contains("[LMB]"))
         {
             line.text = BindingReplacer.Replace(oldText, "[LMB]", ActionBindings.activateItemBinding);
-            FinallyCorrectKeys.Logger.LogDebug(string.Format("[{0}] Replaced the {1}  binding.", nameof(HUDManagerPatches), ActionBindings.activateItemBinding));
+            replacedBinding = ActionBindings.activateItemBinding;
         }
         else if (oldText.Contains("[Q]"))
         {
             line.text = BindingReplacer.Replace(oldText, "[Q]", ActionBindings.secondaryUseBinding);
-            FinallyCorrectKeys.Logger.LogDebug(string.Format("[{0}] Replaced the {1}  binding.", nameof(HUDManagerPatches), ActionBindings.secondaryUseBinding));
+            replacedBinding = ActionBindings.secondaryUseBinding;
         }
         else if (oldText.Contains("[E]"))
         {
             line.text = BindingReplacer.Replace(oldText, "[E]", ActionBindings.tertiaryUseBinding);
-            FinallyCorrectKeys.Logger.LogDebug(string.Format("[{0}] Replaced the {1}  binding.", nameof(HUDManagerPatches), ActionBindings.tertiaryUseBinding));
+            replacedBinding = ActionBindings.tertiaryUseBinding;
         }
         else if (oldText.Contains("[Z]"))
         {
             line.text = BindingReplacer.Replace(oldText, "[Z]", ActionBindings.inspectItemBinding);
-            FinallyCorrectKeys.Logger.LogDebug(string.Format("[{0}] Replaced the {1}  binding.", nameof(HUDManagerPatches), ActionBindings.inspectItemBinding));
+            replacedBinding = ActionBindings.inspectItemBinding;
         }
         else if (oldText.Contains("[Q/E]")) // In case of clipboard
         {
             string replace = string.Format("[{0}/{1}]", ActionBindings.GetInputBindingString(ActionBindings.secondaryUseBinding), ActionBindings.GetInputBindingString(ActionBindings.tertiaryUseBinding));
             line.text = oldText.Replace("[Q/E]", replace);
-            FinallyCorrectKeys.Logger.LogDebug(string.Format("[{0}] Replaced the {1} and {2} binding.", nameof(HUDManagerPatches), ActionBindings.secondaryUseBinding, ActionBindings.tertiaryUseBinding));
+            replacedBinding = ActionBindings.secondaryUseBinding + " and " + ActionBindings.tertiaryUseBinding;
         }
         else if (oldText.StartsWith("Sprint")) // In case of round starting // DOESN'T WORK 😭
         {
             line.text = BindingReplacer.Replace(oldText, "[Shift]", ActionBindings.sprintBinding);
-            FinallyCorrectKeys.Logger.LogDebug(string.Format("[{0}] Replaced the {1}  binding.", nameof(HUDManagerPatches), ActionBindings.sprintBinding));
+            replacedBinding = ActionBindings.sprintBinding;
         }
         else if (oldText.StartsWith("Scan")) // In case of round starting // DOESN'T WORK 😭
         {
             line.text = BindingReplacer.Replace(oldText, "[RMB]", ActionBindings.scanBinding);
-            FinallyCorrectKeys.Logger.LogDebug(string.Format("[{0}] Replaced the {1}  binding.", nameof(HUDManagerPatches), ActionBindings.scanBinding));
+            replacedBinding = ActionBindings.scanBinding;
         }
-        FinallyCorrectKeys.Logger.LogDebug($"[{nameof(HUDManagerPatches)}] Line replaced.\nOld: {oldText}\nNew: {line.text}");
+        FinallyCorrectKeys.Logger.LogDebug($"[{nameof(HUDManagerPatches)}] Binding {replacedBinding} replaced:\nOld: {oldText}\nNew: {line.text}");
     }
 
     private static void ReplaceKeysInControlTipMultiple(TextMeshProUGUI[] lines)
