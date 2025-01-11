@@ -118,6 +118,12 @@ public class HUDManagerPatches
             line.text = BindingReplacer.Replace(oldText, "[RMB]", ActionBindings.scanBinding);
             replacedBinding = ActionBindings.scanBinding;
         }
+
+        if (string.IsNullOrEmpty(replacedBinding))
+        {
+            FinallyCorrectKeys.Logger.LogDebug($"[{nameof(HUDManagerPatches)}] No keybind found to replace");
+            return;
+        }
         FinallyCorrectKeys.Logger.LogDebug($"[{nameof(HUDManagerPatches)}] Binding {replacedBinding} replaced:\nOld: {oldText}\nNew: {line.text}");
     }
 
