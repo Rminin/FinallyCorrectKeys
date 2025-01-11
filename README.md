@@ -6,7 +6,7 @@ Only supports Keyboard keybinds for now.
 - Replaces the standard keybinds in the control tips (top right)
 - Replaces the standard hover interact keybind (grab, open, etc.)
 - Replaces the standard ship build mode keybinds
-- Disables word wrap on the control tips (configurable)
+- Disables word wrap on the control tips (configurable, on by default)
 - Option to hide control tips entirely (configurable)
 
 ## Compatibilites
@@ -14,6 +14,7 @@ Only supports Keyboard keybinds for now.
 - [LethalConfig](https://thunderstore.io/c/lethal-company/p/AinaVT/LethalConfig/) by [AinaVT](https://thunderstore.io/c/lethal-company/p/AinaVT/)
 
 ## Planned (maybe)
+- Improve the way to get the Interaction InputAction
 - Fix control tips not updating when changing bind while they're displayed
 - Support gamepad keybinds
 - Fix the rest of the vanilla UI elements I didn't find yet
