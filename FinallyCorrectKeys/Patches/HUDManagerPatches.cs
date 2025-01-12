@@ -16,7 +16,10 @@ public class HUDManagerPatches
     {
         _instance = __instance;
 
-        ApplyWordWrapConfig();
+        if (Config.wordWrap.Value == Config.WordWrapOption.Disabled)
+        {
+            SetWordWrap(false);
+        }
     }
 
     [HarmonyPatch(nameof(HUDManager.ChangeControlTipMultiple))]
@@ -56,13 +59,13 @@ public class HUDManagerPatches
         FinallyCorrectKeys.Logger.LogDebug($"[{nameof(HUDManagerPatches)}] Coroutine to force text change started.");
     }
 
-    public static void ApplyWordWrapConfig()
+    public static void SetWordWrap(bool enabled)
     {
         foreach (var controlTipLine in _instance.controlTipLines)
         {
-            controlTipLine.enableWordWrapping = !Config.disableWordWrap.Value;
+            controlTipLine.enableWordWrapping = enabled;
         }
-        FinallyCorrectKeys.Logger.LogDebug(string.Format("[{0}] Disable word wrapping of controlTipLines: {1}", nameof(HUDManagerPatches), !Config.disableWordWrap.Value));
+        FinallyCorrectKeys.Logger.LogDebug($"[{nameof(HUDManagerPatches)}] Set word wrapping of controlTipLines to: {enabled}");
     }
 
     public static void HideControlTips()
