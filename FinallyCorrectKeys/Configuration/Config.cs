@@ -1,4 +1,5 @@
-﻿using BepInEx.Bootstrap;
+﻿using System;
+using BepInEx.Bootstrap;
 using BepInEx.Configuration;
 using FinallyCorrectKeys.Patches;
 using LethalConfig;
@@ -58,13 +59,35 @@ internal class Config
         LethalConfigManager.AddConfigItem(controlTipBox);
 
         var wordWrapItem = new EnumDropDownConfigItem<WordWrapOption>(wordWrap, requiresRestart: false);
+        wordWrap.SettingChanged += OnWordWrapChanged;
         LethalConfigManager.AddConfigItem(wordWrapItem);
 
         var wordWrapLimitItem = new IntSliderConfigItem(wordWrapLimit, new IntSliderOptions
         {
+            RequiresRestart = false,
             Min = 0,
             Max = 100
         });
         LethalConfigManager.AddConfigItem(wordWrapLimitItem);
+    }
+
+    private static void OnWordWrapChanged(object obj, EventArgs args)
+    {
+        FinallyCorrectKeys.Logger.LogDebug($"[{nameof(Config)}] Option {nameof(wordWrap)} changed in LethalConfig");
+        switch (wordWrap.Value)
+        {
+            case WordWrapOption.Enabled:
+                HUDManagerPatches.SetWordWrap(true);
+                break;
+            case WordWrapOption.Disabled:
+                HUDManagerPatches.SetWordWrap(false);
+                break;
+            case WordWrapOption.EnabledIfGreater:
+                HUDManagerPatches.ApplyWordWrapConfig();
+                break;
+            default:
+                FinallyCorrectKeys.Logger.LogError($"[{nameof(Config)}] Unkown value {wordWrap.Value} for option {nameof(wordWrap)}");
+                break;
+        }
     }
 }

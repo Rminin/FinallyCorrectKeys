@@ -31,7 +31,7 @@ public class HUDManagerPatches
             HideControlTips(__instance.controlTipLines);
             return;
         }
-
+        ApplyWordWrapConfig();
         ReplaceKeysInControlTipMultiple(__instance.controlTipLines);
     }
 
@@ -44,9 +44,8 @@ public class HUDManagerPatches
             HideControlTips(__instance.controlTipLines);
             return;
         }
-
-        FinallyCorrectKeys.Logger.LogDebug(string.Format("[{0}] Parameters of ChangeControlTip:\nToolTipNumber: {1}\nChangeTo: {2}",
-            nameof(HUDManagerPatches), toolTipNumber, changeTo));
+        FinallyCorrectKeys.Logger.LogDebug($"[{nameof(HUDManagerPatches)}] Parameters of ChangeControlTip:\nToolTipNumber: {toolTipNumber}\nChangeTo: {changeTo}");
+        ApplyWordWrapConfig();
         ReplaceKeysInControlTip(__instance.controlTipLines[toolTipNumber]);
         
         if (__instance.forceChangeTextCoroutine != null)
@@ -66,6 +65,17 @@ public class HUDManagerPatches
             controlTipLine.enableWordWrapping = enabled;
         }
         FinallyCorrectKeys.Logger.LogDebug($"[{nameof(HUDManagerPatches)}] Set word wrapping of controlTipLines to: {enabled}");
+    }
+
+    public static void ApplyWordWrapConfig()
+    {
+        foreach (var line in _instance.controlTipLines)
+        {
+            if (Config.wordWrap.Value == Config.WordWrapOption.EnabledIfGreater)
+            {
+                line.enableWordWrapping = line.text.Length > Config.wordWrapLimit.Value;
+            }
+        }
     }
 
     public static void HideControlTips()
