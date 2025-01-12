@@ -68,7 +68,14 @@ internal class Config
             Min = 0,
             Max = 100
         });
+        wordWrapLimit.SettingChanged += OnWordWrapLimitChanged;
         LethalConfigManager.AddConfigItem(wordWrapLimitItem);
+    }
+
+    private static void OnWordWrapLimitChanged(object obj, EventArgs args)
+    {
+        FinallyCorrectKeys.Logger.LogDebug($"[{nameof(Config)}] Option {nameof(wordWrapLimit)} changed in LethalConfig");
+        HUDManagerPatches.ApplyWordWrapConfig();
     }
 
     private static void OnWordWrapChanged(object obj, EventArgs args)
