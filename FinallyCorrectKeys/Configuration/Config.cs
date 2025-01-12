@@ -48,14 +48,7 @@ internal class Config
     internal static void LoadLethalConfig()
     {
         var controlTipBox = new BoolCheckBoxConfigItem(disableControlTips, requiresRestart: false);
-        disableControlTips.SettingChanged += (_, _) =>
-        {
-            if (disableControlTips.Value)
-            {
-                HUDManagerPatches.HideControlTips();
-            }
-            FinallyCorrectKeys.Logger.LogDebug(string.Format("[{0}] Option {1} changed in LethalConfig", nameof(Config), nameof(disableControlTips)));
-        };
+        disableControlTips.SettingChanged += OnDisableControlTipsChanged;
         LethalConfigManager.AddConfigItem(controlTipBox);
 
         var wordWrapItem = new EnumDropDownConfigItem<WordWrapOption>(wordWrap, requiresRestart: false);
@@ -70,6 +63,15 @@ internal class Config
         });
         wordWrapLimit.SettingChanged += OnWordWrapLimitChanged;
         LethalConfigManager.AddConfigItem(wordWrapLimitItem);
+    }
+
+    private static void OnDisableControlTipsChanged(object obj, EventArgs args)
+    {
+        if (disableControlTips.Value)
+        {
+            HUDManagerPatches.HideControlTips();
+        }
+        FinallyCorrectKeys.Logger.LogDebug(string.Format("[{0}] Option {1} changed in LethalConfig", nameof(Config), nameof(disableControlTips)));
     }
 
     private static void OnWordWrapLimitChanged(object obj, EventArgs args)
