@@ -45,15 +45,14 @@ public class HUDManagerPatches
             return;
         }
         FinallyCorrectKeys.Logger.LogDebug($"[{nameof(HUDManagerPatches)}] Parameters of ChangeControlTip:\nToolTipNumber: {toolTipNumber}\nChangeTo: {changeTo}");
-        ApplyWordWrapConfig();
-        ReplaceKeysInControlTip(__instance.controlTipLines[toolTipNumber]);
-        
+        TextMeshProUGUI line = __instance.controlTipLines[toolTipNumber];
+        ApplyWordWrapGreater(line);
+        ReplaceKeysInControlTip(line);
         if (__instance.forceChangeTextCoroutine != null)
         {
             __instance.StopCoroutine(__instance.forceChangeTextCoroutine);
             FinallyCorrectKeys.Logger.LogDebug($"[{nameof(HUDManagerPatches)}] Coroutine to force text change stopped.");
         }
-        TextMeshProUGUI line = __instance.controlTipLines[toolTipNumber];
         __instance.forceChangeTextCoroutine = __instance.StartCoroutine(__instance.ForceChangeText(line, line.text));
         FinallyCorrectKeys.Logger.LogDebug($"[{nameof(HUDManagerPatches)}] Coroutine to force text change started.");
     }
@@ -71,10 +70,7 @@ public class HUDManagerPatches
     {
         foreach (var line in _instance.controlTipLines)
         {
-            if (Config.wordWrap.Value == Config.WordWrapOption.EnabledIfGreater)
-            {
-                line.enableWordWrapping = line.text.Length > Config.wordWrapLimit.Value;
-            }
+            ApplyWordWrapGreater(line);
         }
     }
 
@@ -138,6 +134,14 @@ public class HUDManagerPatches
             return;
         }
         FinallyCorrectKeys.Logger.LogDebug($"[{nameof(HUDManagerPatches)}] Binding {replacedBinding} replaced:\nOld: {oldText}\nNew: {line.text}");
+    }
+
+    private static void ApplyWordWrapGreater(TextMeshProUGUI line)
+    {
+        if (Config.wordWrap.Value == Config.WordWrapOption.EnabledIfGreater)
+        {
+            line.enableWordWrapping = line.text.Length > Config.wordWrapLimit.Value;
+        }
     }
 
     private static void ReplaceKeysInControlTipMultiple(TextMeshProUGUI[] lines)
