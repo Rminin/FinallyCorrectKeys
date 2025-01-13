@@ -154,6 +154,6 @@ public class HUDManagerPatches
         {
             lines[i].text = "";
         }
-        FinallyCorrectKeys.Logger.LogDebug(string.Format("[{0}] Hid control tips.", nameof(HUDManagerPatches)));
+        FinallyCorrectKeys.Logger.LogDebug($"[{nameof(HUDManagerPatches)}] Hid control tips.");
     }
 }

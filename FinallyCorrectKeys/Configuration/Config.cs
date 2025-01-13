@@ -67,22 +67,22 @@ internal class Config
 
     private static void OnDisableControlTipsChanged(object obj, EventArgs args)
     {
+        FinallyCorrectKeys.Logger.LogDebug($"[{nameof(Config)}] LethalConfig Option {nameof(disableControlTips)} changed to {disableControlTips.Value}");
         if (disableControlTips.Value)
         {
             HUDManagerPatches.HideControlTips();
         }
-        FinallyCorrectKeys.Logger.LogDebug(string.Format("[{0}] Option {1} changed in LethalConfig", nameof(Config), nameof(disableControlTips)));
     }
 
     private static void OnWordWrapLimitChanged(object obj, EventArgs args)
     {
-        FinallyCorrectKeys.Logger.LogDebug($"[{nameof(Config)}] Option {nameof(wordWrapLimit)} changed in LethalConfig");
+        FinallyCorrectKeys.Logger.LogDebug($"[{nameof(Config)}] LethalConfig Option {nameof(wordWrapLimit)} changed to {wordWrapLimit.Value}");
         HUDManagerPatches.ApplyWordWrapConfig();
     }
 
     private static void OnWordWrapChanged(object obj, EventArgs args)
     {
-        FinallyCorrectKeys.Logger.LogDebug($"[{nameof(Config)}] Option {nameof(wordWrap)} changed in LethalConfig");
+        FinallyCorrectKeys.Logger.LogDebug($"[{nameof(Config)}] LethalConfig Option {nameof(wordWrap)} changed to {wordWrap.Value}");
         switch (wordWrap.Value)
         {
             case WordWrapOption.Enabled:
