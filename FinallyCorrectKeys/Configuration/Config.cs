@@ -32,7 +32,10 @@ internal class Config
         wordWrap = config.Bind("General",
             "Word Wrap",
             defaultValue: WordWrapOption.EnabledIfGreater,
-            "Option for controlling word wrap.");
+            "Option for controlling word wrap.\n" +
+            $"{WordWrapOption.Enabled}: Word wrap enabled (Vanilla)\n" +
+            $"{WordWrapOption.EnabledIfGreater}: Word wrap enabled for lines which are longer than the word wrap limit (Recommended)\n" +
+            $"{WordWrapOption.Disabled}: Word wrap disabled");
 
         wordWrapLimit = config.Bind("General",
             "Word Wrap Limit",
