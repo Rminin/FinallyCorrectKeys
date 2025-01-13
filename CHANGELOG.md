@@ -1,3 +1,9 @@
+### [1.5.0]
+- Overworked how word wrap is applied to the control tips
+- Added a config for choosing a word wrap mode
+- Added a config for the word wrap limit
+- Cleaned up Debug Log messages
+
 ### [1.4.0]
 - Removed ShotgunItemPatches class because the ForceChangeText corountine changes the lines correctly
 - Cleaned up Debug Log messages

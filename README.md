@@ -6,7 +6,7 @@ Only supports Keyboard keybinds for now.
 - Replaces the standard keybinds in the control tips (top right)
 - Replaces the standard hover interact keybind (grab, open, etc.)
 - Replaces the standard ship build mode keybinds
-- Disables word wrap on the control tips (configurable, on by default)
+- Option to control word wrap on the control tips (configurable)
 - Option to hide control tips entirely (configurable)
 
 ## Compatibilites
