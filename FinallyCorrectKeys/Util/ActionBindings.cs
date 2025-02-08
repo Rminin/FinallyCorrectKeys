@@ -1,4 +1,5 @@
-﻿using UnityEngine.InputSystem;
+using System.Collections.Generic;
+using UnityEngine.InputSystem;
 
 namespace FinallyCorrectKeys.Util;
 
@@ -21,9 +22,23 @@ internal class ActionBindings
     internal static readonly string rotateBinding = "ReloadBatteries";
     internal static readonly string storeBinding = "Delete";
 
+    internal static Dictionary<string, InputAction> actionMap = [];
+
+    internal static InputAction interactAction = actions.FindAction(interactBinding);
+    internal static InputBinding interactBind = interactAction.bindings[0];
+    internal static string interactDisplayString = interactBind.ToDisplayString();
+
+    internal static InputAction GetInputAction(string actionName)
+    {
+        if (actionMap.ContainsKey(actionName)) return actionMap[actionName];
+        var action = actions.FindAction(actionName);
+        actionMap.Add(actionName, action);
+        return action;
+    }
+
     internal static InputBinding GetInputBinding(string actionName)
     {
-        return actions.FindAction(actionName).bindings[0];
+        return GetInputAction(actionName).bindings[0];
     }
 
     internal static string GetInputBindingString(string actionName)
