@@ -2,8 +2,8 @@
 
 internal class BindingReplacer
 {
-    internal static string Replace(string text, string toReplace, string actionName)
+    internal static string Replace(string text, string toReplace, Bindings binding)
     {
-        return text.Replace(toReplace, "[" + ActionBindings.GetInputBindingString(actionName) + "\u200B]");
+        return text.Replace(toReplace, "[" + ActionBindings.GetInputBindingString(binding) + "\u200B]");
     }
 }

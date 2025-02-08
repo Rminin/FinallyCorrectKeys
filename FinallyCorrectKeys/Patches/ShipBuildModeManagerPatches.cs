@@ -11,11 +11,11 @@ public class ShipBuildModeManagerPatches
     private static void CreateGhostObjectAndHighlight(ShipBuildModeManager __instance)
     {
         string replace = HUDManager.Instance.buildModeControlTip.text;
-        replace = BindingReplacer.Replace(replace, "[B]", ActionBindings.buildBinding);
-        replace = BindingReplacer.Replace(replace, "[R]", ActionBindings.rotateBinding);
-        replace = BindingReplacer.Replace(replace, "[X]", ActionBindings.storeBinding);
+        replace = BindingReplacer.Replace(replace, Bindings.BUILD.ToHUDFormat(), Bindings.BUILD);
+        replace = BindingReplacer.Replace(replace, Bindings.ROTATE.ToHUDFormat(), Bindings.ROTATE);
+        replace = BindingReplacer.Replace(replace, Bindings.STORE.ToHUDFormat(), Bindings.STORE);
         HUDManager.Instance.buildModeControlTip.text = replace;
         FinallyCorrectKeys.Logger.LogDebug(string.Format("[{0}] Replaced the {1} and {2} and {3} binding."
-            , nameof(ShipBuildModeManagerPatches), ActionBindings.buildBinding, ActionBindings.rotateBinding, ActionBindings.storeBinding));
+            , nameof(ShipBuildModeManagerPatches), Bindings.BUILD, Bindings.ROTATE, Bindings.STORE));
     }
 }

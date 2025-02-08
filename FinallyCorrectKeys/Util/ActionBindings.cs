@@ -1,4 +1,4 @@
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine.InputSystem;
 
 namespace FinallyCorrectKeys.Util;
@@ -7,42 +7,27 @@ internal class ActionBindings
 {
     private static readonly InputActionAsset actions = IngamePlayerSettings.Instance.playerInput.actions;
 
-    internal static readonly string discardBinding = "Discard";
-    internal static readonly string useBinding = "Use"; // Don't know where it gets used
-    internal static readonly string activateItemBinding = "ActivateItem";
-    internal static readonly string secondaryUseBinding = "ItemSecondaryUse";
-    internal static readonly string tertiaryUseBinding = "ItemTertiaryUse";
-    internal static readonly string inspectItemBinding = "InspectItem";
-    internal static readonly string sprintBinding = "Sprint";
-    internal static readonly string scanBinding = "PingScan";
+    internal static Dictionary<Bindings, InputAction> actionMap = [];
 
-    internal static readonly string interactBinding = "Interact";
-
-    internal static readonly string buildBinding = "BuildMode";
-    internal static readonly string rotateBinding = "ReloadBatteries";
-    internal static readonly string storeBinding = "Delete";
-
-    internal static Dictionary<string, InputAction> actionMap = [];
-
-    internal static InputAction interactAction = actions.FindAction(interactBinding);
+    internal static InputAction interactAction = actions.FindAction(Bindings.INTERACT.Name);
     internal static InputBinding interactBind = interactAction.bindings[0];
     internal static string interactDisplayString = interactBind.ToDisplayString();
 
-    internal static InputAction GetInputAction(string actionName)
+    internal static InputAction GetInputAction(Bindings binding)
     {
-        if (actionMap.ContainsKey(actionName)) return actionMap[actionName];
-        var action = actions.FindAction(actionName);
-        actionMap.Add(actionName, action);
+        if (actionMap.ContainsKey(binding)) return actionMap[binding];
+        var action = actions.FindAction(binding);
+        actionMap.Add(binding, action);
         return action;
     }
 
-    internal static InputBinding GetInputBinding(string actionName)
+    internal static InputBinding GetInputBinding(Bindings binding)
     {
-        return GetInputAction(actionName).bindings[0];
+        return GetInputAction(binding).bindings[0];
     }
 
-    internal static string GetInputBindingString(string actionName)
+    internal static string GetInputBindingString(Bindings binding)
     {
-        return GetInputBinding(actionName).ToDisplayString();
+        return GetInputBinding(binding).ToDisplayString();
     }
 }

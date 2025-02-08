@@ -86,46 +86,46 @@ public class HUDManagerPatches
         if (string.IsNullOrWhiteSpace(oldText)) return;
 
         string replacedBinding = string.Empty;
-        if (oldText.Contains("[G]"))
+        if (oldText.Contains(Bindings.DISCARD.ToHUDFormat()))
         {
-            line.text = BindingReplacer.Replace(oldText, "[G]", ActionBindings.discardBinding);
-            replacedBinding = ActionBindings.discardBinding;
+            line.text = BindingReplacer.Replace(oldText, Bindings.DISCARD.ToHUDFormat(), Bindings.DISCARD);
+            replacedBinding = Bindings.DISCARD;
         }
-        else if (oldText.Contains("[LMB]"))
+        else if (oldText.Contains(Bindings.ACTIVATE_ITEM.ToHUDFormat()))
         {
-            line.text = BindingReplacer.Replace(oldText, "[LMB]", ActionBindings.activateItemBinding);
-            replacedBinding = ActionBindings.activateItemBinding;
+            line.text = BindingReplacer.Replace(oldText, Bindings.ACTIVATE_ITEM.ToHUDFormat(), Bindings.ACTIVATE_ITEM);
+            replacedBinding = Bindings.ACTIVATE_ITEM;
         }
-        else if (oldText.Contains("[Q]"))
+        else if (oldText.Contains(Bindings.SECONDARY_USE.ToHUDFormat()))
         {
-            line.text = BindingReplacer.Replace(oldText, "[Q]", ActionBindings.secondaryUseBinding);
-            replacedBinding = ActionBindings.secondaryUseBinding;
+            line.text = BindingReplacer.Replace(oldText, Bindings.SECONDARY_USE.ToHUDFormat(), Bindings.SECONDARY_USE);
+            replacedBinding = Bindings.SECONDARY_USE;
         }
-        else if (oldText.Contains("[E]"))
+        else if (oldText.Contains(Bindings.TERTIARY_USE.ToHUDFormat()))
         {
-            line.text = BindingReplacer.Replace(oldText, "[E]", ActionBindings.tertiaryUseBinding);
-            replacedBinding = ActionBindings.tertiaryUseBinding;
+            line.text = BindingReplacer.Replace(oldText, Bindings.TERTIARY_USE.ToHUDFormat(), Bindings.TERTIARY_USE);
+            replacedBinding = Bindings.TERTIARY_USE;
         }
-        else if (oldText.Contains("[Z]"))
+        else if (oldText.Contains(Bindings.INSPECT_ITEM.ToHUDFormat()))
         {
-            line.text = BindingReplacer.Replace(oldText, "[Z]", ActionBindings.inspectItemBinding);
-            replacedBinding = ActionBindings.inspectItemBinding;
+            line.text = BindingReplacer.Replace(oldText, Bindings.INSPECT_ITEM.ToHUDFormat(), Bindings.INSPECT_ITEM);
+            replacedBinding = Bindings.INSPECT_ITEM;
         }
-        else if (oldText.Contains("[Q/E]")) // In case of clipboard
+        else if (oldText.Contains(string.Format("[{0}/{1}]", Bindings.SECONDARY_USE.StandardKey, Bindings.TERTIARY_USE.StandardKey))) // In case of clipboard
         {
-            string replace = string.Format("[{0}/{1}]", ActionBindings.GetInputBindingString(ActionBindings.secondaryUseBinding), ActionBindings.GetInputBindingString(ActionBindings.tertiaryUseBinding));
-            line.text = oldText.Replace("[Q/E]", replace);
-            replacedBinding = ActionBindings.secondaryUseBinding + " and " + ActionBindings.tertiaryUseBinding;
+            string replace = string.Format("[{0}/{1}]", ActionBindings.GetInputBindingString(Bindings.SECONDARY_USE), ActionBindings.GetInputBindingString(Bindings.TERTIARY_USE));
+            line.text = oldText.Replace(string.Format("[{0}/{1}]", Bindings.SECONDARY_USE.StandardKey, Bindings.TERTIARY_USE.StandardKey), replace);
+            replacedBinding = Bindings.SECONDARY_USE + " and " + Bindings.TERTIARY_USE;
         }
         else if (oldText.StartsWith("Sprint")) // In case of round starting // DOESN'T WORK 😭
         {
-            line.text = BindingReplacer.Replace(oldText, "[Shift]", ActionBindings.sprintBinding);
-            replacedBinding = ActionBindings.sprintBinding;
+            line.text = BindingReplacer.Replace(oldText, Bindings.SPRINT.ToHUDFormat(), Bindings.SPRINT);
+            replacedBinding = Bindings.SPRINT;
         }
         else if (oldText.StartsWith("Scan")) // In case of round starting // DOESN'T WORK 😭
         {
-            line.text = BindingReplacer.Replace(oldText, "[RMB]", ActionBindings.scanBinding);
-            replacedBinding = ActionBindings.scanBinding;
+            line.text = BindingReplacer.Replace(oldText, Bindings.SCAN.ToHUDFormat(), Bindings.SCAN);
+            replacedBinding = Bindings.SCAN;
         }
 
         if (string.IsNullOrEmpty(replacedBinding))
