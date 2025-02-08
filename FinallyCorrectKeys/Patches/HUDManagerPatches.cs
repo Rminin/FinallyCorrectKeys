@@ -117,6 +117,7 @@ public class HUDManagerPatches
             line.text = oldText.Replace(string.Format("[{0}/{1}]", Bindings.SECONDARY_USE.StandardKey, Bindings.TERTIARY_USE.StandardKey), replace);
             replacedBinding = Bindings.SECONDARY_USE + " and " + Bindings.TERTIARY_USE;
         }
+        /* Commented out until I find out where it's applicable
         else if (oldText.StartsWith("Sprint")) // In case of round starting // DOESN'T WORK 😭
         {
             line.text = BindingReplacer.Replace(oldText, Bindings.SPRINT.ToHUDFormat(), Bindings.SPRINT);
@@ -126,7 +127,7 @@ public class HUDManagerPatches
         {
             line.text = BindingReplacer.Replace(oldText, Bindings.SCAN.ToHUDFormat(), Bindings.SCAN);
             replacedBinding = Bindings.SCAN;
-        }
+        }*/
 
         if (string.IsNullOrEmpty(replacedBinding))
         {
