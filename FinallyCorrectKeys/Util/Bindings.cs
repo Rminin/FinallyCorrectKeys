@@ -21,6 +21,8 @@ public class Bindings
         return Name;
     }
 
+    public static implicit operator string(Bindings b) => b.ToString();
+
     public static readonly Bindings DISCARD = new("Discard", "G");
     public static readonly Bindings USE = new("Use", "LMB"); // Don't know where it gets used
     public static readonly Bindings ACTIVATE_ITEM = new("ActivateItem", "LMB");
