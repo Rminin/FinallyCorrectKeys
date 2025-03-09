@@ -14,7 +14,6 @@ Only supports Keyboard keybinds for now.
 - [LethalConfig](https://thunderstore.io/c/lethal-company/p/AinaVT/LethalConfig/) by [AinaVT](https://thunderstore.io/c/lethal-company/p/AinaVT/)
 
 ## Planned (maybe)
-- Improve the way to get the Interaction InputAction
 - Fix control tips not updating when changing bind while they're displayed
 - Support gamepad keybinds
 - Fix the rest of the vanilla UI elements I didn't find yet

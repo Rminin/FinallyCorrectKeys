@@ -1,3 +1,7 @@
+### [1.6.0]
+- Reworked storing of Bindings to be more Enum like and refactored places they where they were used
+- Optimized updating of the Interaction Action Displaystring which was performant heavy (but only when cursor tooltip was shown and contained the keybind). Implemented a time based cooldown on updating the displaystring.
+
 ### [1.5.0]
 - Overworked how word wrap is applied to the control tips
 - Added a config for choosing a word wrap mode
