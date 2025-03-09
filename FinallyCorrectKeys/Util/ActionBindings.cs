@@ -26,6 +26,10 @@ internal class ActionBindings
         return GetInputAction(binding).bindings[0];
     }
 
+    /// <summary>
+    /// This method should not be executed repeatedly because the Unity method "ToDisplayString()" seems to be heavy on performance.
+    /// Using this method repeatedly could therefore lead to preformance drops. Avoid it in the context of Unity's "Update()".
+    /// </summary>
     internal static string GetInputBindingString(Bindings binding)
     {
         return GetInputBinding(binding).ToDisplayString();
