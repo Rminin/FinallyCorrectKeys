@@ -2,6 +2,9 @@
 This mod should correct most of the UI elements to display the keybind the user has set for an action.
 Only supports Keyboard keybinds for now.
 
+### Note:
+v73 broke Vanilla key rebinding, so [LethalCompany_InputUtils](https://thunderstore.io/c/lethal-company/p/Rune580/LethalCompany_InputUtils/) is needed to rebind keys.
+
 ## Features:
 - Replaces the standard keybinds in the control tips (top right)
 - Replaces the standard hover interact keybind (grab, open, etc.)
