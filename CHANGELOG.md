@@ -1,3 +1,7 @@
+### [1.6.1]
+- Added [LethalCompany_InputUtils](https://thunderstore.io/c/lethal-company/p/Rune580/LethalCompany_InputUtils/) as a dependency in Thunderstore because v73 somehow broke Vanilla key rebinding
+- Updated BepInExPack version
+
 ### [1.6.0]
 - Reworked storing of Bindings to be more Enum like and refactored places they where they were used
 - Optimized updating of the Interaction Action Displaystring which was performant heavy (but only when cursor tooltip was shown and contained the keybind). Implemented a time based cooldown on updating the displaystring.
